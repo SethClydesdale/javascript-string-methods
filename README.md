@@ -39,6 +39,13 @@ Mirrors a string of text so that it displays backwards. Can be used to unmirror 
 '! dlrow olleH'.mirror(); // returns 'Hellow world !'
 ```
 
+#### String.prototype.capitalize();
+
+Capitalizes the first letter of every word.
+```javascript
+'my name is seth'.capitalize(); // returns 'My Name Is Seth'
+```
+
 
 ## Remakes
 Remakes of existing methods that can be used for bad-apple browsers.
