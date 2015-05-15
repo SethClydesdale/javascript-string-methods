@@ -22,6 +22,15 @@ String.prototype.mirror = function() {
 };
 
 
+// Method to capitalize the first letter of each word
+// 'hello world !'.capitalize(); returns 'Hello World !'
+String.prototype.capitalize = function() {
+  return this.replace(/(^|\s)([a-z])/gm, function(M, $1, $2) {
+    return $1 + $2.toUpperCase();
+  });
+};
+
+
 // Method to trim whitespace from the beginning and end of a string on naughty browsers
 // '  Hello world !  '.protoTrim(); returns 'Hello world !'
 // You can also pass along "left" or "right" as an argument to trim a specific side of a string
