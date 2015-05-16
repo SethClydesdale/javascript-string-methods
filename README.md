@@ -1,5 +1,5 @@
-# Using the prototype methods
-The methods are simple to use ! Simply define a variable or write a string literal, then execute the method on it. See the examples below for more information.
+# Using the ProtoString Methods
+The methods are simple to use as they're an extension of the ``String`` object ! Simply define a variable or write a string literal, then execute the method on it. See the examples below for more information.
 
 1. [Conversion Methods](#conversion)
 2. [Miscellaneous Methods](#miscellaneous)
@@ -9,26 +9,40 @@ The methods are simple to use ! Simply define a variable or write a string liter
 
 
 ## Conversion
-I usually like converting texts to hex for concealment, so the first two conversion methods are hex related.
+These methods are for encoding and decoding encoded text strings.
 
 
 #### String.prototype.toHex();
 
 Encodes a text string as hexadecimal characters
 ```javascript
-'Hello world !'.toHex(); // returns '48656c6c6f20776f726c642021'
+'Hello world !'.toHex(); // returns '48 65 6c 6c 6f 20 77 6f 72 6c 64 20 21'
 ```
 
 #### String.prototype.fromHex();
 
 Decodes a string of hexadecimal characters
 ```javascript
-'48656c6c6f20776f726c642021'.fromHex(); // returns 'Hello world !'
+'48 65 6c 6c 6f 20 77 6f 72 6c 64 20 21'.fromHex(); // returns 'Hello world !'
+```
+
+#### String.prototype.toBinary();
+
+Encodes a string as a series of bits
+```javascript
+'Seth'.toBinary(); // returns '1010011 1100101 1110100 1101000'
+```
+
+#### String.prototype.fromBinary();
+
+Decodes a string of bits
+```javascript
+'1010011 1100101 1110100 1101000'.fromBinary(); // returns 'Seth'
 ```
 
 
 ## Miscellaneous
-Miscellaneous methods that shouldn't exist, but they do.
+Miscellaneous methods that do crazy or useful jobs.
 
 
 #### String.prototype.mirror();
@@ -36,7 +50,7 @@ Miscellaneous methods that shouldn't exist, but they do.
 Mirrors a string of text so that it displays backwards. Can be used to unmirror text as well !
 ```javascript
 'Hello world !'.mirror(); // returns '! dlrow olleH'
-'! dlrow olleH'.mirror(); // returns 'Hellow world !'
+'! dlrow olleH'.mirror(); // returns 'Hello world !'
 ```
 
 #### String.prototype.capitalize();
@@ -99,4 +113,4 @@ document.body.appendChild(str);
 
 
 ## Information
-This project is for fun, and aims to provide people with simple or silly methods for the String object. You're free to use any of the methods provided here. :)
+This project is for fun, and aims to provide people with useful or silly methods for the String object. You're free to use any of the methods provided here. If you have any suggestions, feel free to let me know. See you, and have fun maniplating those Strings ! :)
