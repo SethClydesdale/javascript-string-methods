@@ -6,6 +6,22 @@
 
 /* !--- CONVERSION METHODS ---! */
 
+// Method to encode a text string as decimal
+// 'Seth'.toDecimal(); returns '83 101 116 104'
+String.prototype.toDecimal = function() {
+  for (var i = 1, j = this.length, $ = this.charCodeAt(0); i<j; i++) $ += ' ' + this.charCodeAt(i);
+  return $;
+};
+
+
+// Method to decode a decimal string
+// '83 101 116 104'.toDecimal(); returns 'Seth'
+String.prototype.fromDecimal = function() {
+  for (var dec = this.split(' '), i = 0, $ = '', d; d = dec[i]; i++) $ += String.fromCharCode(d);
+  return $;
+};
+
+
 // Method to encode a text string as hex
 // 'Seth'.toHex(); returns '53 65 74 68'
 String.prototype.toHex = function() {
