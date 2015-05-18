@@ -54,6 +54,20 @@ Decodes a string of bits
 '1010011 1100101 1110100 1101000'.fromBinary(); // returns 'Seth'
 ```
 
+#### String.prototype.toEntity();
+
+Converts a text string to a string of HTML entity numbers
+```javascript
+'&$♥'.toEntity(); // returns '&#38;&#36;&#9829;'
+```
+
+#### String.prototype.fromEntity();
+
+Converts a string of HTML entity numbers to text
+```javascript
+'&#38;&#36;&#9829;'.fromEntity(); // returns '&$♥'
+```
+
 
 ## Miscellaneous
 Miscellaneous methods that do crazy or useful jobs.
