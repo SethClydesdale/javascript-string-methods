@@ -15,7 +15,7 @@ String.prototype.toDecimal = function() {
 
 
 // Method to decode a decimal string
-// '83 101 116 104'.toDecimal(); returns 'Seth'
+// '83 101 116 104'.fromDecimal(); returns 'Seth'
 String.prototype.fromDecimal = function() {
   for (var dec = this.split(' '), i = 0, $ = '', d; d = dec[i]; i++) $ += String.fromCharCode(d);
   return $;
@@ -50,6 +50,24 @@ String.prototype.toBinary = function() {
 String.prototype.fromBinary = function() {
   for (var bits = this.split(' '), i = 0, $ = '', b; b = bits[i]; i++) $ += String.fromCharCode('0b' + b);
   return $;
+};
+
+
+// Method to convert a string of characters into HTML entities
+// 'Seth'.toEntity(); returns '&#83;&#101;&#116;&#104;'
+String.prototype.toEntity = function() {
+  for (var i = 0, j = this.length, $ = ''; i<j; i++) $ += '&#' + this.charCodeAt(i) + ';';
+  return $;
+};
+
+
+// Method to convert a string of HTML entities into text
+// '&#83;&#101;&#116;&#104;'.fromEntity(); returns 'Seth'
+// !! Currently only decodes entity numbers, not names
+String.prototype.fromEntity = function() {
+  return this.replace(/&#(\d+);/g, function(M, $1) {
+    return String.fromCharCode($1);
+  });
 };
 
 
