@@ -6,66 +6,72 @@
 
 /* !--- CONVERSION METHODS ---! */
 
-// Method to encode a text string as decimal
-// 'Seth'.toDecimal(); returns '83 101 116 104'
-String.prototype.toDecimal = function() {
-  for (var i = 1, j = this.length, $ = this.charCodeAt(0); i<j; i++) $ += ' ' + this.charCodeAt(i);
+// Method to encode a text string as : decimal, hex, binary, or HTML entity
+// 'Hello'.encodeAs('decimal'); // returns '72 101 108 108 111'
+// 'Hello'.encodeAs('hex'); // returns '48 65 6c 6c 6f'
+// 'Hello'.encodeAs('binary'); // returns '1001000 1100101 1101100 1101100 1101111'
+// '&$♥♦♣'.encodeAs('entity'); // returns '&#38;&#36;&#9829;&#9830;&#9827;'
+String.prototype.encodeAs = function(type) {
+  !type && (type = 'decimal');
+  
+  var i = 1, j = this.length, $ = this.charCodeAt(0), $1 = ' ', $2 = '', n;
+  
+  switch (type.toLowerCase()) {
+    case 'decimal' :
+      break;
+      
+    case 'hex' :
+      n = 16;
+      $ = $.toString(n);
+      break;
+      
+    case 'binary' :
+      n = 2;
+      $ = $.toString(n);
+      break;
+      
+    case 'entity' :
+      i = 0;
+      $ = '';
+      $1 = '&#';
+      $2 = ';';
+      break;
+  }
+  
+  for (; i<j; i++) $ += $1 + this.charCodeAt(i).toString(n) + $2;
+  
   return $;
 };
 
 
-// Method to decode a decimal string
-// '83 101 116 104'.fromDecimal(); returns 'Seth'
-String.prototype.fromDecimal = function() {
-  for (var dec = this.split(' '), i = 0, $ = '', d; d = dec[i]; i++) $ += String.fromCharCode(d);
-  return $;
-};
-
-
-// Method to encode a text string as hex
-// 'Seth'.toHex(); returns '53 65 74 68'
-String.prototype.toHex = function() {
-  for (var i = 1, j = this.length, $ = this.charCodeAt(0).toString(16); i<j; i++) $ += ' ' + this.charCodeAt(i).toString(16);
-  return $;
-};
-
-
-// Method to decode a hex string as text
-// '53 65 74 68'.fromHex(); returns 'Seth'
-String.prototype.fromHex = function() {
-  for (var hex = this.split(' '), i = 0, $ = '', h; h = hex[i]; i++) $ += String.fromCharCode(parseInt(h, 16));
-  return $;
-};
-
-
-// Method to encode a string as a series of bits
-// 'Seth'.toBinary(); returns '1010011 1100101 1110100 1101000'
-String.prototype.toBinary = function() {
-  for (var i = 1, j = this.length, $ = this.charCodeAt(0).toString(2); i<j; i++) $ += ' ' + this.charCodeAt(i).toString(2);
-  return $;
-};
-
-// Method to decode a string of bits
-// '1010011 1100101 1110100 1101000'.fromBinary(); returns 'Seth'
-String.prototype.fromBinary = function() {
-  for (var bits = this.split(' '), i = 0, $ = '', b; b = bits[i]; i++) $ += String.fromCharCode('0b' + b);
-  return $;
-};
-
-
-// Method to convert a string of characters into HTML entities
-// 'Seth'.toEntity(); returns '&#83;&#101;&#116;&#104;'
-String.prototype.toEntity = function() {
-  for (var i = 0, j = this.length, $ = ''; i<j; i++) $ += '&#' + this.charCodeAt(i) + ';';
-  return $;
-};
-
-
-// Method to convert a string of HTML entities into text
-// '&#83;&#101;&#116;&#104;'.fromEntity(); returns 'Seth'
-// !! Currently only decodes entity numbers, not names
-String.prototype.fromEntity = function() {
-  return this.replace(/&#(\d+);/g, function(M, $1) {
+// Method to decode a text string encoded as : decimal, hex, binary, or HTML entity
+// '72 101 108 108 111'.decodeAs('decimal'); // returns 'Hello'
+// '48 65 6c 6c 6f'.decodeAs('hex'); // returns 'Hello'
+// '1001000 1100101 1101100 1101100 1101111'.decodeAs('binary'); // returns 'Hello'
+// '&#38;&#36;&#9829;&#9830;&#9827;'.decodeAs('entity'); // returns '&$♥♦♣'
+String.prototype.decodeAs = function(type) {
+  !type && (type = 'decimal');
+  type = type.toLowerCase();
+  
+  if (type != 'entity') {
+    for (var str = this.split(' '), i = 0, $ = '', S; S = str[i]; i++) {
+      switch (type) {
+        case 'decimal' :
+          break;
+          
+        case 'hex' :
+          S = parseInt(S, 16);
+          break
+          
+        case 'binary' :
+          S = '0b' + S;
+          break;
+      }
+      
+      $ += String.fromCharCode(S);
+    }
+    return $;
+  } else return this.replace(/&#(\d+);/g, function(M, $1) {
     return String.fromCharCode($1);
   });
 };
