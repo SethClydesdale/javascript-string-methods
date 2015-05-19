@@ -12,60 +12,73 @@ The methods are simple to use as they're an extension of the ``String`` object !
 These methods are for encoding and decoding encoded text strings.
 
 
-#### String.prototype.toDecimal();
+#### String.prototype.encodeAs(type);
 
-Encodes a text string as decimal
+Encodes a string of text as : decimal, hex, binary, and HTML entity.
+
+***type*** : A string that determines the encoding method. Defaults to decimal conversion if left undefined. All possible encoding methods are : 
+
+``'decimal'``
+
+Encodes the string as a series of decimal character numbers.
 ```javascript
-'Hello world !'.toDecimal(); // returns '72 101 108 108 111 32 119 111 114 108 100 32 33'
+'Hello'.encodeAs('decimal'); // returns '72 101 108 108 111'
 ```
 
-#### String.prototype.fromDecimal();
+``'hex'``
 
-Decodes a decimal encoded text string
+Encodes the string as a series of hexadecimal character numbers.
 ```javascript
-'72 101 108 108 111 32 119 111 114 108 100 32 33'.fromDecimal(); // returns 'Hello world !'
+'Hello'.encodeAs('hex'); // returns '48 65 6c 6c 6f'
 ```
 
-#### String.prototype.toHex();
+``'binary'``
 
-Encodes a text string as hexadecimal
+Encodes the string as a series of bits.
 ```javascript
-'Hello world !'.toHex(); // returns '48 65 6c 6c 6f 20 77 6f 72 6c 64 20 21'
+'Hello'.encodeAs('binary'); // returns '1001000 1100101 1101100 1101100 1101111'
 ```
 
-#### String.prototype.fromHex();
+``'entity'``
 
-Decodes a hexadecimal encoded text string
+Encodes the string as a series of HTML entity numbers.
 ```javascript
-'48 65 6c 6c 6f 20 77 6f 72 6c 64 20 21'.fromHex(); // returns 'Hello world !'
+'&$♥♦♣'.encodeAs('entity'); // returns '&#38;&#36;&#9829;&#9830;&#9827;'
 ```
 
-#### String.prototype.toBinary();
 
-Encodes a string as a series of bits
+#### String.prototype.decodeAs(type);
+
+Decodes an encoded text string into readable text.
+
+***type*** : A string that determines the decoding method. Defaults to decimal conversion if left undefined. All possible decoding methods are : 
+
+``'decimal'``
+
+Decodes a decimal encoded string of text.
 ```javascript
-'Seth'.toBinary(); // returns '1010011 1100101 1110100 1101000'
+'72 101 108 108 111'.decodeAs('decimal'); // returns 'Hello'
 ```
 
-#### String.prototype.fromBinary();
+``'hex'``
 
-Decodes a string of bits
+Decodes a hexadecimal encoded string of text.
 ```javascript
-'1010011 1100101 1110100 1101000'.fromBinary(); // returns 'Seth'
+'48 65 6c 6c 6f'.decodeAs('hex'); // returns 'Hello'
 ```
 
-#### String.prototype.toEntity();
+``'binary'``
 
-Converts a text string to a string of HTML entity numbers
+Decodes a binary encoded string of text.
 ```javascript
-'&$♥'.toEntity(); // returns '&#38;&#36;&#9829;'
+'1001000 1100101 1101100 1101100 1101111'.decodeAs('binary'); // returns 'Hello'
 ```
 
-#### String.prototype.fromEntity();
+``'entity'``
 
-Converts a string of HTML entity numbers to text
+Decodes a series of HTML entity numbers.
 ```javascript
-'&#38;&#36;&#9829;'.fromEntity(); // returns '&$♥'
+'&#38;&#36;&#9829;&#9830;&#9827;'.decodeAs('entity'); // returns '&$♥♦♣'
 ```
 
 
