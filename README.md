@@ -101,6 +101,13 @@ Capitalizes the first letter of every word.
 'my name is seth'.capitalize(); // returns 'My Name Is Seth'
 ```
 
+#### String.prototype.cleanId();
+
+Cleans a string of text so that it can be use as a valid id in HTML.
+```javascript
+'my identifier!'.cleanId(); // returns 'my-identifier'
+```
+
 
 ## Remakes
 Remakes of existing methods that can be used for bad-apple browsers.
