@@ -96,6 +96,21 @@ String.prototype.capitalize = function() {
 };
 
 
+// Method to clean a string of text so that it can be used as an ID
+// Filters out invalid characters, keeps case, and ensures the ID starts with a character if it doesn't
+// 'my identifier!'.cleanId(); // returns 'my-identifier'
+String.prototype.cleanId = function() {
+  for (var i = 0, $ = '', S; S = this[i]; i++) {
+    if (/\s/.test(S)) $ += '-';
+    else if (/[0-9A-Z\-_]/i.test(S)) $ += S;
+  }
+  
+  /[0-9\-_]/.test($[0]) && ($ = 'id-' + $); 
+  
+  return $;
+};
+
+
 /* !--- REMAKES OF EXISTING METHODS ---! */
 
 // Method to trim whitespace from the beginning and end of a string on naughty browsers
