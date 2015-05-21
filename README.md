@@ -3,7 +3,7 @@ The methods are simple to use as they're an extension of the ``String`` object !
 
 1. [Conversion Methods](#conversion)
 2. [Miscellaneous Methods](#miscellaneous)
-3. [Polyfill Methods](#pollyfill)
+3. [Polyfill Methods](#polyfill)
 4. [DOM Node Methods](#dom-nodes)
 5. [Information](#information)
 
