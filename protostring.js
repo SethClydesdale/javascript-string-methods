@@ -96,6 +96,29 @@ String.prototype.capitalize = function() {
 };
 
 
+// Method to convert a string to camel case
+// 'To camel case'.toCamelCase(); // returns 'toCamelCase'
+String.prototype.toCamelCase = function() {
+  for (var i = 0, $ = '', W = false, S; S = this[i]; i++) {
+    if (/[A-Z]/i.test(S)) {
+      switch (W) {
+        case false :
+          $ += S;
+          break;
+        case true :
+          $ += S.toUpperCase();
+          W = false;
+          break;
+      }
+    } else if (/\s/.test(S)) W = true;
+  }
+  
+  if (/[A-Z]/.test($[0])) $ = $[0].toLowerCase() + $.slice(1);
+  
+  return $;
+};
+
+
 // Method to clean a string of text so that it can be used as an ID
 // Filters out invalid characters, keeps case, and ensures the ID starts with a character if it doesn't
 // 'my identifier!'.cleanId(); // returns 'my-identifier'
