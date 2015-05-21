@@ -3,7 +3,7 @@ The methods are simple to use as they're an extension of the ``String`` object !
 
 1. [Conversion Methods](#conversion)
 2. [Miscellaneous Methods](#miscellaneous)
-3. [Remakes of Existing Methods](#remakes)
+3. [Polyfill Methods](#pollyfill)
 4. [DOM Node Methods](#dom-nodes)
 5. [Information](#information)
 
@@ -14,7 +14,7 @@ These methods are for encoding and decoding encoded text strings.
 
 #### String.prototype.encodeAs(type);
 
-Encodes a string of text as : decimal, hex, binary, and HTML entity.
+Encodes a string of text as : decimal, hex, binary, and HTML entity numbers.
 
 ***type*** : A string that determines the encoding method. Defaults to decimal conversion if left undefined. All possible encoding methods are : 
 
@@ -101,15 +101,22 @@ Capitalizes the first letter of every word.
 'my name is seth'.capitalize(); // returns 'My Name Is Seth'
 ```
 
+#### String.prototype.toCamelCase();
+
+Converts a string of text to camelCase, by converting the first letter to lowercase, removing whitespace, and converting letters after whitespace to uppercase. Strips characters that are NOT alphabetical (A-Z and a-z).
+```javascript
+'To camel case'.toCamelCase(); // returns 'toCamelCase'
+```
+
 #### String.prototype.cleanId();
 
-Cleans a string of text so that it can be use as a valid id in HTML.
+Cleans a string of text so that it can be used as a valid id in an HTML element's attribute, or as a hash in the href attribute.
 ```javascript
 'my identifier!'.cleanId(); // returns 'my-identifier'
 ```
 
 
-## Remakes
+## Polyfill
 Remakes of existing methods that can be used for bad-apple browsers.
 
 
@@ -134,7 +141,7 @@ Methods to convert text strings to DOM nodes. Useless, or not ? You decide !
 
 Converts a string of text to a DOM node, with the text being the node's innerHTML content.
 
-***tag*** : A string specifiying the tagname of the element that the string will be converted to. If no argument is passed, the string will be converted to a ``<P>`` element.
+***tag*** : A string specifiying the tagname of the element that the string will be converted to. Defaults to a ``<P>`` element if left undefined.
 ```javascript
 var str = 'Hello world !';
 // 'Hello world !' is set as the innerHTML of the node
