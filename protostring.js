@@ -12,11 +12,10 @@
 // 'Hello'.encodeAs('binary'); // returns '1001000 1100101 1101100 1101100 1101111'
 // '&$♥♦♣'.encodeAs('entity'); // returns '&#38;&#36;&#9829;&#9830;&#9827;'
 String.prototype.encodeAs = function(type) {
-  !type && (type = 'decimal');
+  type = type ? type.toLowerCase() : 'decimal';
   
   var i = 1, j = this.length, $ = this.charCodeAt(0), $1 = ' ', $2 = '', n;
-  
-  switch (type.toLowerCase()) {
+  switch (type) {
     case 'decimal' :
       break;
       
@@ -50,8 +49,7 @@ String.prototype.encodeAs = function(type) {
 // '1001000 1100101 1101100 1101100 1101111'.decodeAs('binary'); // returns 'Hello'
 // '&#38;&#36;&#9829;&#9830;&#9827;'.decodeAs('entity'); // returns '&$♥♦♣'
 String.prototype.decodeAs = function(type) {
-  !type && (type = 'decimal');
-  type = type.toLowerCase();
+  type = type ? type.toLowerCase() : 'decimal';
   
   if (type != 'entity') {
     for (var str = this.split(' '), i = 0, $ = '', S; S = str[i]; i++) {
@@ -87,11 +85,26 @@ String.prototype.mirror = function() {
 };
 
 
-// Method to capitalize the first letter of each word
-// 'hello world !'.capitalize(); returns 'Hello World !'
-String.prototype.capitalize = function() {
-  return this.replace(/(^|\s)([a-z])/gm, function(M, $1, $2) {
-    return $1 + $2.toUpperCase();
+// Method to capitalize the first letter of each word, except for articles, conjunctions, and prepositions.
+// 'the wizard of oz'.toTitleCase(); // returns 'The Wizard of Oz'
+String.prototype.toTitleCase = function(ignore) {
+  for (var i = 1, $ = this[0].toUpperCase(), W = false, S; S = this[i]; i++) {
+    switch (W) {
+      case false :
+        $ += S;
+        break;
+        
+      case true :
+        $ += S.toUpperCase();
+        W = false;
+        break;
+    }
+    if (/\s/.test(S)) W = true;
+  }
+  
+  if (ignore) return $;
+  else return $.replace(/\s(a|about|above|across|against|along|also|although|among|an|and|around|at|because|before|behind|below|beneath|beside|between|beyond|but|by|down|during|either|except|for|from|in|inside|into|like|near|neither|nor|not|of|off|on|only|or|since|the|through|to|toward|under|unless|until|up|upon|while|with|within)(?=\s)/ig, function(M, $1) {
+    return ' ' + $1.toLowerCase();
   });
 };
 
@@ -105,6 +118,7 @@ String.prototype.toCamelCase = function() {
         case false :
           $ += S;
           break;
+        
         case true :
           $ += S.toUpperCase();
           W = false;
@@ -129,6 +143,40 @@ String.prototype.cleanId = function() {
   }
   
   /[0-9\-_]/.test($[0]) && ($ = 'id-' + $); 
+  
+  return $;
+};
+
+
+// Function to produce a range of characters in the following types : string, array, and object
+// String.charRange('A', 'Z'); // returns 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+// String.charRange('0', '9', 'array'); // returns [0,1,2,3,4,5,6,7,8,9]
+// String.charRange('A', 'F', 'object'); // returns {u65:'A',u66:'B',u67:'C',u68:'D',u69:'E',u70:'F'}
+String.charRange = function(alpha, omega, type) {
+  var $, $1;
+  alpha = alpha ? alpha.charCodeAt(0) : 0;
+  omega = omega ? omega.charCodeAt(0) + 1 : 65536;
+  type = type ? type.toLowerCase() : 'string';
+  
+  if (alpha > omega) {
+    $1 = ++alpha;
+    alpha = --omega;
+    omega = $1;
+  }
+  
+  switch (type) {
+    case 'string' :
+      for ($ = ''; alpha < omega; alpha++) $ += String.fromCharCode(alpha);
+      break;
+      
+    case 'array' :
+      for ($ = [], $1 = 0; alpha < omega; alpha++) $[$1++] = String.fromCharCode(alpha);
+      break;
+      
+    case 'object' :
+      for ($ = {}; alpha < omega; alpha++) $['u' + alpha] = String.fromCharCode(alpha);
+      break;
+  }
   
   return $;
 };
