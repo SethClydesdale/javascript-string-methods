@@ -94,11 +94,19 @@ Mirrors a string of text so that it displays backwards. Can be used to unmirror 
 '! dlrow olleH'.mirror(); // returns 'Hello world !'
 ```
 
-#### String.prototype.capitalize();
+#### String.prototype.toTitleCase(ignore);
 
-Capitalizes the first letter of every word.
+Capitalizes the first letter of every word, except for Articles, Conjunctions, and Prepositions.
+
+***ignore*** : A boolean value specifying that you want to ignore Articles, Conjunctions, and Prepositions. Setting this to ``true`` would return "War of the Worlds" as "War Of The Worlds"
+
 ```javascript
-'my name is seth'.capitalize(); // returns 'My Name Is Seth'
+'the wizard of oz'.toTitleCase(); // returns 'The Wizard of Oz'
+'war of the worlds'.toTitleCase(); // returns 'War of the Worlds'
+'snow white and the seven dwarves'.toTitleCase(); // returns 'Snow White and the Seven Dwarves'
+
+// using ignore
+'war of the worlds'.toTitleCase(true); // returns 'War Of The Worlds'
 ```
 
 #### String.prototype.toCamelCase();
@@ -113,6 +121,29 @@ Converts a string of text to camelCase, by converting the first letter to lowerc
 Cleans a string of text so that it can be used as a valid id in an HTML element's attribute, or as a hash in the href attribute.
 ```javascript
 'my identifier!'.cleanId(); // returns 'my-identifier'
+```
+
+#### String.charRange(alpha, omega, type);
+
+Produces a range of characters in the form of a ``String``, ``Array``, or ``Object``. This is a static method for ``String``, so it should always be used as ``String.charRange()``.
+
+***alpha*** : A string that determines the starting point of the range. Defaults to character code **0** if left undefined.
+
+***omega*** : A string that determines the ending point of the range. Defaults to character code **65535** if left undefined.
+
+***type*** : A string that determines the type of range returned. This can be : ``'string'``, ``'array'``, or ``'object'``; it always defaults to String if left undefined.
+
+```javascript
+// String based range
+var alphabet = String.charRange('A', 'Z'); // returns the alphabet 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+// Array based range
+// Characters can be iterated or accessed by their index; charArray[0] returns 0
+var charArray = String.charRange('0', '9', 'array'); // returns [0,1,2,3,4,5,6,7,8,9]
+
+// Object based range
+// Characters can be accessed with their unicode ID; charObject.u65 returns A
+var charObject = String.charRange('A', 'F', 'object'); // returns {u65:'A',u66:'B',u67:'C',u68:'D',u69:'E',u70:'F'}
 ```
 
 
