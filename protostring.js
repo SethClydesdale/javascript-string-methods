@@ -75,12 +75,19 @@ String.prototype.decodeAs = function(type) {
 };
 
 
-/* !--- MISCELLANEOUS METHODS ---! */
+/* !--- CASE METHODS ---! */
 
-// Method to reverse a string so that it's backwards. Use the same method on a backwards string so that it's readable.
-// 'Hello world !'.mirror(); returns '! dlrow olleH'.mirror(); returns 'Hello world !'
-String.prototype.mirror = function() {
-  for (var i = this.length - 1, $ = ''; i > -1; i--) $ += this[i];
+// Method to capitalize the first word of every newline and new sentence
+// 'sentence one. sentence two.'.capitalize(); // returns 'Sentence one. Sentence two.'
+String.prototype.toSentenceCase = function() {
+  for (var i = 0, N = false, $ = '', S; S = this[i]; i++) {
+    if (!N && !/\n|\r|\s/.test(S)) {
+      $ += S.toUpperCase();
+      N = true;
+    } else $ += S;
+    
+    if (/\n|\r|\.|!|\?/.test(S)) N = false;
+  }
   return $;
 };
 
@@ -133,17 +140,12 @@ String.prototype.toCamelCase = function() {
 };
 
 
-// Method to clean a string of text so that it can be used as an ID
-// Filters out invalid characters, keeps case, and ensures the ID starts with a character if it doesn't
-// 'my identifier!'.cleanId(); // returns 'my-identifier'
-String.prototype.cleanId = function() {
-  for (var i = 0, $ = '', S; S = this[i]; i++) {
-    if (/\s/.test(S)) $ += '-';
-    else if (/[0-9A-Z\-_]/i.test(S)) $ += S;
-  }
-  
-  /[0-9\-_]/.test($[0]) && ($ = 'id-' + $); 
-  
+/* !--- MISCELLANEOUS METHODS ---! */
+
+// Method to reverse a string so that it's backwards. Use the same method on a backwards string so that it's readable.
+// 'Hello world !'.mirror(); returns '! dlrow olleH'.mirror(); returns 'Hello world !'
+String.prototype.mirror = function() {
+  for (var i = this.length - 1, $ = ''; i > -1; i--) $ += this[i];
   return $;
 };
 
@@ -182,29 +184,27 @@ String.charRange = function(alpha, omega, type) {
 };
 
 
-/* !--- REMAKES OF EXISTING METHODS ---! */
+/* !--- POLYFILL METHODS ---! */
 
 // Method to trim whitespace from the beginning and end of a string on naughty browsers
 // '  Hello world !  '.protoTrim(); returns 'Hello world !'
 // You can also pass along "left" or "right" as an argument to trim a specific side of a string
 String.prototype.protoTrim = function(param) {
-  var reg = /^\s+|\s+$/g;
+  param = param ? param.toLowerCase() : /^\s+|\s+$/g;
   
-  if (param) {
-    param = param.toLowerCase();
-    
+  if (param.constructor == String) {
     switch (param) {
       case 'left' :
-        reg = /^\s+/;
+        param = /^\s+/;
         break;
       
       case 'right' :
-        reg = /\s+$/;
+        param = /\s+$/;
         break;
     }
   }
   
-  return this.replace(reg, ''); 
+  return this.replace(param, ''); 
 };
 
 
@@ -224,4 +224,19 @@ String.prototype.toNode = function(tag) {
 // 'Hello world !'.toTextNode();
 String.prototype.toTextNode = function() {
   return document.createTextNode(this);
+};
+
+
+// Method to clean a string of text so that it can be used as an ID
+// Filters out invalid characters, keeps case, and ensures the ID starts with a character if it doesn't
+// 'my identifier!'.cleanId(); // returns 'my-identifier'
+String.prototype.cleanId = function() {
+  for (var i = 0, $ = '', S; S = this[i]; i++) {
+    if (/\s/.test(S)) $ += '-';
+    else if (/[0-9A-Z\-_]/i.test(S)) $ += S;
+  }
+  
+  if (/[0-9\-_]/.test($[0])) $ = 'id-' + $; 
+  
+  return $;
 };
