@@ -35,6 +35,9 @@ String.prototype.encodeAs = function(type) {
       $1 = '&#';
       $2 = ';';
       break;
+      
+    default :
+      throw new ReferenceError('"' + type + '" is not an encoding method.\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-encodeAs%28%29-Method');
   }
   
   for (; i<j; i++) $ += $1 + this.charCodeAt(i).toString(n) + $2;
@@ -64,6 +67,9 @@ String.prototype.decodeAs = function(type) {
         case 'binary' :
           S = '0b' + S;
           break;
+          
+        default :
+          throw new ReferenceError('"' + type + '" is not a decoding method.\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-decodeAs%28%29-Method');
       }
       
       $ += String.fromCharCode(S);
@@ -76,6 +82,37 @@ String.prototype.decodeAs = function(type) {
 
 
 /* !--- CASE METHODS ---! */
+
+// Method to capitalize the character of a string and lowercase the rest
+// 'coffee TIME'.capitalize(); // returns 'Coffee time'
+String.prototype.capitalize = function(keepCase) {
+  return this[0].toUpperCase() + (keepCase ? this : this.toLowerCase()).slice(1);
+};
+
+
+// Method to convert a string to camel case
+// 'To camel case'.toCamelCase(); // returns 'toCamelCase'
+String.prototype.toCamelCase = function() {
+  for (var i = 0, $ = '', W = false, S; S = this[i]; i++) {
+    if (/[A-Z]/i.test(S)) {
+      switch (W) {
+        case false :
+          $ += S;
+          break;
+        
+        case true :
+          $ += S.toUpperCase();
+          W = false;
+          break;
+      }
+    } else if (/\s/.test(S)) W = true;
+  }
+  
+  if (/[A-Z]/.test($[0])) $ = $[0].toLowerCase() + $.slice(1);
+  
+  return $;
+};
+
 
 // Method to capitalize the first word of every newline and new sentence
 // 'sentence one. sentence two.'.capitalize(); // returns 'Sentence one. Sentence two.'
@@ -116,39 +153,7 @@ String.prototype.toTitleCase = function(ignore) {
 };
 
 
-// Method to convert a string to camel case
-// 'To camel case'.toCamelCase(); // returns 'toCamelCase'
-String.prototype.toCamelCase = function() {
-  for (var i = 0, $ = '', W = false, S; S = this[i]; i++) {
-    if (/[A-Z]/i.test(S)) {
-      switch (W) {
-        case false :
-          $ += S;
-          break;
-        
-        case true :
-          $ += S.toUpperCase();
-          W = false;
-          break;
-      }
-    } else if (/\s/.test(S)) W = true;
-  }
-  
-  if (/[A-Z]/.test($[0])) $ = $[0].toLowerCase() + $.slice(1);
-  
-  return $;
-};
-
-
 /* !--- MISCELLANEOUS METHODS ---! */
-
-// Method to reverse a string so that it's backwards. Use the same method on a backwards string so that it's readable.
-// 'Hello world !'.mirror(); returns '! dlrow olleH'.mirror(); returns 'Hello world !'
-String.prototype.mirror = function() {
-  for (var i = this.length - 1, $ = ''; i > -1; i--) $ += this[i];
-  return $;
-};
-
 
 // Function to produce a range of characters in the following types : string, array, and object
 // String.charRange('A', 'Z'); // returns 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -178,8 +183,19 @@ String.charRange = function(alpha, omega, type) {
     case 'object' :
       for ($ = {}; alpha < omega; alpha++) $['u' + alpha] = String.fromCharCode(alpha);
       break;
+      
+    default :
+      throw new ReferenceError('"' + type + '" is not a supported data type.\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-charRange%28%29-Method');
   }
   
+  return $;
+};
+
+
+// Method to reverse a string so that it's backwards. Use the same method on a backwards string so that it's readable.
+// 'Hello world !'.mirror(); returns '! dlrow olleH'.mirror(); returns 'Hello world !'
+String.prototype.mirror = function() {
+  for (var i = this.length - 1, $ = ''; i > -1; i--) $ += this[i];
   return $;
 };
 
@@ -190,18 +206,23 @@ String.charRange = function(alpha, omega, type) {
 // '  Hello world !  '.protoTrim(); returns 'Hello world !'
 // You can also pass along "left" or "right" as an argument to trim a specific side of a string
 String.prototype.protoTrim = function(param) {
-  param = param ? param.toLowerCase() : /^\s+|\s+$/g;
+  param = param ? param.toLowerCase() : 'both';
   
-  if (param.constructor == String) {
-    switch (param) {
-      case 'left' :
-        param = /^\s+/;
-        break;
+  switch (param) {
+    case 'both' :
+      param = /^\s+|\s+$/g;
+      break
+    
+    case 'left' :
+      param = /^\s+/;
+      break;
       
-      case 'right' :
-        param = /\s+$/;
-        break;
-    }
+    case 'right' :
+      param = /\s+$/;
+      break;
+        
+    default :
+      throw new ReferenceError('"' + param + '" is not a trimming method.\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-protoTrim%28%29-Method');
   }
   
   return this.replace(param, ''); 
@@ -209,6 +230,21 @@ String.prototype.protoTrim = function(param) {
 
 
 /* !--- DOM NODE METHODS ---! */
+
+// Method to clean a string of text so that it can be used as an ID
+// Filters out invalid characters, keeps case, and ensures the ID starts with a character if it doesn't
+// 'my identifier!'.cleanId(); // returns 'my-identifier'
+String.prototype.cleanId = function() {
+  for (var i = 0, $ = '', S; S = this[i]; i++) {
+    if (/\s/.test(S)) $ += '-';
+    else if (/[0-9A-Z\-_]/i.test(S)) $ += S;
+  }
+  
+  if (/[0-9\-_]/.test($[0])) $ = 'id-' + $; 
+  
+  return $;
+};
+
 
 // Method to convert a string to a DOM node
 // The default element is <P>, but you can change this by passing along a tagname as the argument
@@ -224,19 +260,4 @@ String.prototype.toNode = function(tag) {
 // 'Hello world !'.toTextNode();
 String.prototype.toTextNode = function() {
   return document.createTextNode(this);
-};
-
-
-// Method to clean a string of text so that it can be used as an ID
-// Filters out invalid characters, keeps case, and ensures the ID starts with a character if it doesn't
-// 'my identifier!'.cleanId(); // returns 'my-identifier'
-String.prototype.cleanId = function() {
-  for (var i = 0, $ = '', S; S = this[i]; i++) {
-    if (/\s/.test(S)) $ += '-';
-    else if (/[0-9A-Z\-_]/i.test(S)) $ += S;
-  }
-  
-  if (/[0-9\-_]/.test($[0])) $ = 'id-' + $; 
-  
-  return $;
 };
