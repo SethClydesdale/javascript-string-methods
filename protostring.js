@@ -192,6 +192,19 @@ String.charRange = function(alpha, omega, type) {
 };
 
 
+// Method to calculate the Levenshtein distance between two strings
+// 'Kitten'.distance('Sitting'); // returns 3
+String.prototype.distance = function(str, i) {
+  var a = i ? this.toLowerCase() : this, b = str ? i ? str.toLowerCase() : str : a, i = 0, j = a.length, k = b.length, l = Math.abs(j - k), $ = 0;
+  
+  if (a == b) return 0;
+  if (j > k) j = k;
+  for (; i < j; i++) a[i] != b[i] && $++;
+  
+  return $ + l;
+};
+
+
 // Method to reverse a string so that it's backwards. Use the same method on a backwards string so that it's readable.
 // 'Hello world !'.mirror(); returns '! dlrow olleH'.mirror(); returns 'Hello world !'
 String.prototype.mirror = function() {
