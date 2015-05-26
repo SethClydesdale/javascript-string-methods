@@ -1,7 +1,7 @@
 /*
  * PROTOSTRING
  * https://github.com/SethClydesdale/protostring
- * Miscellaneous prototype methods for manipulating JavaScript text strings
+ * A library of methods that extend upon the JavaScript String Object
  */
 
 /* !--- CONVERSION METHODS ---! */
@@ -37,7 +37,7 @@ String.prototype.encodeAs = function(type) {
       break;
       
     default :
-      throw new ReferenceError('"' + type + '" is not an encoding method.\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-encodeAs%28%29-Method');
+      throw new ReferenceError('"' + type + '" is not an encoding method\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-encodeAs%28%29-Method');
   }
   
   for (; i<j; i++) $ += $1 + this.charCodeAt(i).toString(n) + $2;
@@ -69,7 +69,7 @@ String.prototype.decodeAs = function(type) {
           break;
           
         default :
-          throw new ReferenceError('"' + type + '" is not a decoding method.\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-decodeAs%28%29-Method');
+          throw new ReferenceError('"' + type + '" is not a decoding method\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-decodeAs%28%29-Method');
       }
       
       $ += String.fromCharCode(S);
@@ -92,7 +92,7 @@ String.prototype.capitalize = function(keepCase) {
 
 // Method to convert a string to camel case
 // 'To camel case'.toCamelCase(); // returns 'toCamelCase'
-String.prototype.toCamelCase = function() {
+String.prototype.toCamelCase = function(upper) {
   for (var i = 0, $ = '', W = false, S; S = this[i]; i++) {
     if (/[A-Z]/i.test(S)) {
       switch (W) {
@@ -108,7 +108,7 @@ String.prototype.toCamelCase = function() {
     } else if (/\s/.test(S)) W = true;
   }
   
-  if (/[A-Z]/.test($[0])) $ = $[0].toLowerCase() + $.slice(1);
+  $ = (upper ? $[0].toUpperCase() : $[0].toLowerCase()) + $.slice(1);
   
   return $;
 };
@@ -185,7 +185,7 @@ String.charRange = function(alpha, omega, type) {
       break;
       
     default :
-      throw new ReferenceError('"' + type + '" is not a supported data type.\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-charRange%28%29-Method');
+      throw new ReferenceError('"' + type + '" is not a supported data type\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-charRange%28%29-Method');
   }
   
   return $;
@@ -215,6 +215,19 @@ String.prototype.mirror = function() {
 
 /* !--- POLYFILL METHODS ---! */
 
+// Method to repeat a string
+// 'Ho'.protoRepeat(3, '-'); // returns 'Ho-Ho-Ho'
+String.prototype.protoRepeat = function(count, separator) {
+  count = count ? Math.floor(count) : 0;
+  separator = separator ? separator : '';
+  
+  if (count == Infinity || count * this.length > 1<<28) throw new RangeError('Repeat count must be less than Infinity, and not exceed maximum string length\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-protoRepeat%28%29-Method');
+  for (var i = 1, $ = this; i < count; i++) $ += separator + this;
+  
+  return $;
+};
+
+
 // Method to trim whitespace from the beginning and end of a string on naughty browsers
 // '  Hello world !  '.protoTrim(); returns 'Hello world !'
 // You can also pass along "left" or "right" as an argument to trim a specific side of a string
@@ -235,7 +248,7 @@ String.prototype.protoTrim = function(param) {
       break;
         
     default :
-      throw new ReferenceError('"' + param + '" is not a trimming method.\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-protoTrim%28%29-Method');
+      throw new ReferenceError('"' + param + '" is not a trimming method\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-protoTrim%28%29-Method');
   }
   
   return this.replace(param, ''); 
