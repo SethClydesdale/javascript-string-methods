@@ -81,6 +81,23 @@ String.prototype.decodeAs = function(type) {
 };
 
 
+// Method to convert Alphanumerics into Enclosed Alphanumerics
+// 'Coffee'.toEnclosed(); // returns 'Ⓒⓞⓕⓕⓔⓔ'
+String.prototype.toEnclosed = function() {
+  for (var i = 0, $ = '', S; S = this[i]; i++) {
+    S = S.charCodeAt(0);
+    
+    if (S > 64 && S < 91) S = 9398 + Math.abs(65 - S);
+    else if (S > 96 && S < 123) S = 9424 + Math.abs(97 - S);
+    else if (S > 48 && S < 58) S = 9312 + Math.abs(49 - S);
+    else if (S == 48) S = 9450;
+    
+    $ += String.fromCharCode(S);
+  }
+  return $;
+};
+
+
 /* !--- CASE METHODS ---! */
 
 // Method to capitalize the character of a string and lowercase the rest
