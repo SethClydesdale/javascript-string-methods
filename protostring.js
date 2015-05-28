@@ -37,7 +37,7 @@ String.prototype.encodeAs = function(type) {
       break;
       
     default :
-      throw new ReferenceError('"' + type + '" is not an encoding method\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-encodeAs%28%29-Method');
+      throw new TypeError('"' + type + '" is not an encoding method\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-encodeAs%28%29-Method');
   }
   
   for (; i<j; i++) $ += $1 + this.charCodeAt(i).toString(n) + $2;
@@ -62,14 +62,14 @@ String.prototype.decodeAs = function(type) {
           
         case 'hex' :
           S = parseInt(S, 16);
-          break
+          break;
           
         case 'binary' :
           S = '0b' + S;
           break;
           
         default :
-          throw new ReferenceError('"' + type + '" is not a decoding method\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-decodeAs%28%29-Method');
+          throw new TypeError('"' + type + '" is not a decoding method\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-decodeAs%28%29-Method');
       }
       
       $ += String.fromCharCode(S);
@@ -202,7 +202,7 @@ String.charRange = function(alpha, omega, type) {
       break;
       
     default :
-      throw new ReferenceError('"' + type + '" is not a supported data type\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-charRange%28%29-Method');
+      throw new TypeError('"' + type + '" is not a supported data type\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-charRange%28%29-Method');
   }
   
   return $;
@@ -254,7 +254,7 @@ String.prototype.protoTrim = function(param) {
   switch (param) {
     case 'both' :
       param = /^\s+|\s+$/g;
-      break
+      break;
     
     case 'left' :
       param = /^\s+/;
@@ -265,7 +265,7 @@ String.prototype.protoTrim = function(param) {
       break;
         
     default :
-      throw new ReferenceError('"' + param + '" is not a trimming method\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-protoTrim%28%29-Method');
+      throw new TypeError('"' + param + '" is not a trimming method\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-protoTrim%28%29-Method');
   }
   
   return this.replace(param, ''); 
@@ -284,6 +284,34 @@ String.prototype.cleanId = function() {
   }
   
   if (/[0-9\-_]/.test($[0])) $ = 'id-' + $; 
+  
+  return $;
+};
+
+
+// Method to convert a string into an anchor point
+// 'my anchor'.toAnchor(); // returns <a href="#my-anchor" id="my-anchor">my anchor</a>
+// /!\ Dependent upon the cleanId() method
+String.prototype.toAnchor = function(type, id) {
+  type = type ? type.toLowerCase() : 'node';
+  id = id ? id : this.cleanId();
+  
+  var $;
+  switch (type) {
+    case 'node' :
+      $ = document.createElement('A');
+      $.id = id;
+      $.href = '#' + id;
+      $.innerHTML = this;
+      break;
+      
+    case 'string' :
+      $ = '<a href="#' + id + '" id="' + id + '">' + this + '</a>';
+      break;
+      
+    default :
+      throw new TypeError('"' + type + '" is not a supported data type\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-toAnchor%28%29-Method');
+  }
   
   return $;
 };
