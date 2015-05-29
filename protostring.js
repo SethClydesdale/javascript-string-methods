@@ -230,6 +230,23 @@ String.prototype.mirror = function() {
 };
 
 
+// Method to wrap a string with tags or specific characters
+// 'Bingo!'.wrap('<strong>'); // returns '<strong>Bingo!</strong>'
+String.prototype.wrap = function(alpha, omega) {
+  alpha = alpha ? alpha : '<p>';
+  omega = omega ? omega : alpha == '<p>' ? '</p>' : alpha;
+  
+  // test and clean the end string if it matches an unclosed tag
+  if (/<.*?>|\[.*?\]|\{.*?\}/.test(omega) && !/^(?:<|\[\{)\//.test(omega)) {
+    omega = omega.replace(/^\s+|\s+$/g, '');
+    omega = omega[0] + '/' + omega.slice(1);
+    if (/=/.test(omega)) omega = omega.replace(/(?:=.*|\s+.*)(?=>|\]|\})/g, '');
+  }
+  
+  return alpha + this + omega;
+};
+
+
 /* !--- POLYFILL METHODS ---! */
 
 // Method to repeat a string
