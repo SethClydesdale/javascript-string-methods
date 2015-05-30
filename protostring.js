@@ -112,17 +112,9 @@ String.prototype.capitalize = function(keepCase) {
 String.prototype.toCamelCase = function(upper) {
   for (var i = 0, $ = '', W = false, S; S = this[i]; i++) {
     if (/[A-Z]/i.test(S)) {
-      switch (W) {
-        case false :
-          $ += S;
-          break;
-        
-        case true :
-          $ += S.toUpperCase();
-          W = false;
-          break;
-      }
-    } else if (/\s/.test(S)) W = true;
+      $ += W ? S.toUpperCase() : S;
+      W = false;
+    } else if (/\s|\n|\r|_|-/.test(S)) W = true;
   }
   
   $ = (upper ? $[0].toUpperCase() : $[0].toLowerCase()) + $.slice(1);
@@ -142,6 +134,15 @@ String.prototype.toSentenceCase = function() {
     
     if (/\n|\r|\.|!|\?/.test(S)) N = false;
   }
+  return $;
+};
+
+
+// Method to change the casing of a string to snake_case
+// 'To Snake Case'.toSnakeCase(); // returns 'to_snake_case'
+String.prototype.toSnakeCase = function(upper) {
+  for (var i = 0, $ = '', S; S = this[i]; i++) $ += /[A-Z]/i.test(S) ? S : /\s|\n|\r|-|_/.test(S) ? '_' : '';
+  $ = upper ? $.toUpperCase() : $.toLowerCase();
   return $;
 };
 
