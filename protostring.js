@@ -231,10 +231,26 @@ String.prototype.mirror = function() {
 };
 
 
+// Method to shuffle a string
+// 'string'.shuffle(); // returns 'gitsrn'
+String.prototype.shuffle = function(n) {
+  n = Math.floor(n) || 1;
+  
+  var str = this;
+  while (n > 0) {
+    for (var i = 0, $ = '', S; S = str[i]; i++) $ = i % 2 == 0 ? $ + S : S + $;
+    str = $;
+    n--;
+  }
+  
+  return $;
+};
+
+
 // Method to wrap a string with tags or specific characters
 // 'Bingo!'.wrap('<strong>'); // returns '<strong>Bingo!</strong>'
 String.prototype.wrap = function(alpha, omega) {
-  alpha = alpha ? alpha : '<p>';
+  alpha = alpha || '<p>';
   omega = omega ? omega : alpha == '<p>' ? '</p>' : alpha;
   
   // test and clean the end string if it matches an unclosed tag
@@ -253,8 +269,8 @@ String.prototype.wrap = function(alpha, omega) {
 // Method to repeat a string
 // 'Ho'.protoRepeat(3, '-'); // returns 'Ho-Ho-Ho'
 String.prototype.protoRepeat = function(count, separator) {
-  count = count ? Math.floor(count) : 0;
-  separator = separator ? separator : '';
+  count = Math.floor(count) || 0;
+  separator = separator || '';
   
   if (count == Infinity || count * this.length > 1<<28) throw new RangeError('Repeat count must be less than Infinity, and not exceed maximum string length\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-protoRepeat%28%29-Method');
   for (var i = 1, $ = this; i < count; i++) $ += separator + this;
