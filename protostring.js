@@ -223,6 +223,25 @@ String.prototype.distance = function(str, i) {
 };
 
 
+// Method to wrap a string with tags or specific characters
+// 'Bingo!'.wrap('<strong>'); // returns '<strong>Bingo!</strong>'
+String.prototype.wrap = function(alpha, omega) {
+  alpha = alpha || '<p>';
+  omega = omega ? omega : alpha == '<p>' ? '</p>' : alpha;
+  
+  // test and clean the end string if it matches an unclosed tag
+  if (/<.*?>|\[.*?\]|\{.*?\}/.test(omega) && !/^(?:<|\[\{)\//.test(omega)) {
+    omega = omega.replace(/^\s+|\s+$/g, '');
+    omega = omega[0] + '/' + omega.slice(1);
+    if (/=/.test(omega)) omega = omega.replace(/(?:=.*|\s+.*)(?=>|\]|\})/g, '');
+  }
+  
+  return alpha + this + omega;
+};
+
+
+/* !--- POSITION METHODS ---! */
+
 // Method to reverse a string so that it's backwards. Use the same method on a backwards string so that it's readable.
 // 'Hello world !'.mirror(); returns '! dlrow olleH'.mirror(); returns 'Hello world !'
 String.prototype.mirror = function() {
@@ -247,20 +266,19 @@ String.prototype.shuffle = function(n) {
 };
 
 
-// Method to wrap a string with tags or specific characters
-// 'Bingo!'.wrap('<strong>'); // returns '<strong>Bingo!</strong>'
-String.prototype.wrap = function(alpha, omega) {
-  alpha = alpha || '<p>';
-  omega = omega ? omega : alpha == '<p>' ? '</p>' : alpha;
+// Method to unshuffle a shuffled string
+// 'gitsrn'.unshuffle(); // returns 'string'
+String.prototype.unshuffle = function(n) {
+  n = Math.floor(n) || 1;
   
-  // test and clean the end string if it matches an unclosed tag
-  if (/<.*?>|\[.*?\]|\{.*?\}/.test(omega) && !/^(?:<|\[\{)\//.test(omega)) {
-    omega = omega.replace(/^\s+|\s+$/g, '');
-    omega = omega[0] + '/' + omega.slice(1);
-    if (/=/.test(omega)) omega = omega.replace(/(?:=.*|\s+.*)(?=>|\]|\})/g, '');
+  var str = this;
+  while (n > 0) {
+    for (var i = 1, j = str.length, offset = Math.ceil(j / 2) - (j % 2 == 0 ? 0 : 1), $ = str[offset]; i < j; i++) $ += str[offset = i % 2 == 0 ? offset + i : offset - i];
+    str = $;
+    n--;
   }
   
-  return alpha + this + omega;
+  return $;
 };
 
 
