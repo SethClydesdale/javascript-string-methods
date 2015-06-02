@@ -223,6 +223,14 @@ String.prototype.distance = function(str, i) {
 };
 
 
+// Method to number all lines
+// 'line 1\nline 2\nline 3'.enumerateLines(); // returns '1. line 1\n2. line 2\n3. line 3'
+String.prototype.enumerateLines = function(zero) {
+  for (var i = 1, l = zero ? 0 : 1, $ = l + '. ' + this[0], S; S = this[i]; i++) $ += /\n|\r/.test(S) ? S + ++l + '. ' : S;
+  return $;
+};
+
+
 // Method to wrap a string with tags or specific characters
 // 'Bingo!'.wrap('<strong>'); // returns '<strong>Bingo!</strong>'
 String.prototype.wrap = function(alpha, omega) {
