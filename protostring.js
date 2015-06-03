@@ -37,7 +37,7 @@ String.prototype.encodeAs = function(type) {
       break;
       
     default :
-      throw new TypeError('"' + type + '" is not an encoding method\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-encodeAs%28%29-Method');
+      throw new TypeError('"' + type + '" is not an encoding method');
   }
   
   for (; i<j; i++) $ += $1 + this.charCodeAt(i).toString(n) + $2;
@@ -69,7 +69,7 @@ String.prototype.decodeAs = function(type) {
           break;
           
         default :
-          throw new TypeError('"' + type + '" is not a decoding method\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-decodeAs%28%29-Method');
+          throw new TypeError('"' + type + '" is not a decoding method');
       }
       
       $ += String.fromCharCode(S);
@@ -203,7 +203,7 @@ String.charRange = function(alpha, omega, type) {
       break;
       
     default :
-      throw new TypeError('"' + type + '" is not a supported data type\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-charRange%28%29-Method');
+      throw new TypeError('"' + type + '" is not a supported data type');
   }
   
   return $;
@@ -263,6 +263,8 @@ String.prototype.mirror = function() {
 String.prototype.shuffle = function(n) {
   n = Math.floor(n) || 1;
   
+  if (n == Infinity) throw new RangeError('shuffle count must be less than Infinity');
+  
   var str = this;
   while (n > 0) {
     for (var i = 0, $ = '', S; S = str[i]; i++) $ = i % 2 == 0 ? $ + S : S + $;
@@ -278,6 +280,8 @@ String.prototype.shuffle = function(n) {
 // 'gitsrn'.unshuffle(); // returns 'string'
 String.prototype.unshuffle = function(n) {
   n = Math.floor(n) || 1;
+  
+  if (n == Infinity) throw new RangeError('unshuffle count must be less than Infinity');
   
   var str = this;
   while (n > 0) {
@@ -298,7 +302,7 @@ String.prototype.protoRepeat = function(count, separator) {
   count = Math.floor(count) || 0;
   separator = separator || '';
   
-  if (count == Infinity || count * this.length > 1<<28) throw new RangeError('Repeat count must be less than Infinity, and not exceed maximum string length\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-protoRepeat%28%29-Method');
+  if (count == Infinity || count * this.length > 1<<28) throw new RangeError('Repeat count must be less than Infinity, and not exceed maximum string length');
   for (var i = 1, $ = this; i < count; i++) $ += separator + this;
   
   return $;
@@ -308,27 +312,39 @@ String.prototype.protoRepeat = function(count, separator) {
 // Method to trim whitespace from the beginning and end of a string on naughty browsers
 // '  Hello world !  '.protoTrim(); returns 'Hello world !'
 // You can also pass along "left" or "right" as an argument to trim a specific side of a string
-String.prototype.protoTrim = function(param) {
-  param = param ? param.toLowerCase() : 'both';
+String.prototype.protoTrim = function(type) {
+  type = type ? type.toLowerCase() : 'both';
   
-  switch (param) {
+  switch (type) {
     case 'both' :
-      param = /^\s+|\s+$/g;
+      type = /^\s+|\s+$/g;
       break;
     
     case 'left' :
-      param = /^\s+/;
+      type = /^\s+/;
       break;
       
     case 'right' :
-      param = /\s+$/;
+      type = /\s+$/;
       break;
         
     default :
-      throw new TypeError('"' + param + '" is not a trimming method\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-protoTrim%28%29-Method');
+      throw new TypeError('"' + type + '" is not a trimming method');
   }
   
-  return this.replace(param, ''); 
+  return this.replace(type, ''); 
+};
+
+
+// Method to simulate a similar functionality to the ES6 template strings
+// 'Hello ${name}, would you like some ${food}?'.template({ name : 'Seth', food : 'coffee' }); // returns 'Hello Seth, would you like some coffee?'
+String.prototype.template = function(data) {
+  if (typeof data != 'object') throw new TypeError('Template data must be an object');
+  
+  var $ = this, i;
+  for (i in data) $ = $.replace(new RegExp('\\$\\{' + i.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\}', 'gm'), data[i]);
+  
+  return $;
 };
 
 
@@ -370,7 +386,7 @@ String.prototype.toAnchor = function(type, id) {
       break;
       
     default :
-      throw new TypeError('"' + type + '" is not a supported data type\n@https://github.com/SethClydesdale/protostring/wiki/ProtoString-toAnchor%28%29-Method');
+      throw new TypeError('"' + type + '" is not a supported data type');
   }
   
   return $;
