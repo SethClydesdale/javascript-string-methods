@@ -211,8 +211,8 @@ String.charRange = function(alpha, omega, type) {
 
 
 // Method for checking if a string contains the specified substring
-// 'ProtoString'.contains('String', false, 'end'); // returns true
-String.prototype.contains = function(str, i, at) {
+// 'ProtoString'.containsString('String', false, 'end'); // returns true
+String.prototype.containsString = function(str, i, at) {
   at = at ? at.toLowerCase() : '';
   return new RegExp((at == 'start' ? '^' : '') + (str ? str : this).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + (at == 'end' ? '$' : ''), i ? 'i' : '').test(this);
 };
