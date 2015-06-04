@@ -210,6 +210,14 @@ String.charRange = function(alpha, omega, type) {
 };
 
 
+// Method for checking if a string contains the specified substring
+// 'ProtoString'.contains('String', false, 'end'); // returns true
+String.prototype.contains = function(str, i, at) {
+  at = at ? at.toLowerCase() : '';
+  return new RegExp((at == 'start' ? '^' : '') + (str ? str : this).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + (at == 'end' ? '$' : ''), i ? 'i' : '').test(this);
+};
+
+
 // Method to calculate the Levenshtein distance between two strings
 // 'Kitten'.distance('Sitting'); // returns 3
 String.prototype.distance = function(str, i) {
