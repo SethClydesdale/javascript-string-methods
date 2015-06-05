@@ -274,10 +274,9 @@ String.prototype.shuffle = function(n) {
   if (n == Infinity) throw new RangeError('shuffle count must be less than Infinity');
   
   var str = this;
-  while (n > 0) {
+  while (n --> 0) {
     for (var i = 0, $ = '', S; S = str[i]; i++) $ = i % 2 == 0 ? $ + S : S + $;
     str = $;
-    n--;
   }
   
   return $;
@@ -292,10 +291,9 @@ String.prototype.unshuffle = function(n) {
   if (n == Infinity) throw new RangeError('unshuffle count must be less than Infinity');
   
   var str = this;
-  while (n > 0) {
+  while (n --> 0) {
     for (var i = 1, j = str.length, offset = Math.ceil(j / 2) - (j % 2 == 0 ? 0 : 1), $ = str[offset]; i < j; i++) $ += str[offset = i % 2 == 0 ? offset + i : offset - i];
     str = $;
-    n--;
   }
   
   return $;
@@ -369,6 +367,14 @@ String.prototype.cleanId = function() {
   
   if (/[0-9\-_]/.test($[0])) $ = 'id-' + $; 
   
+  return $;
+};
+
+
+// Method to convert newline characters into HTML breaks
+// 'Coffee\nCream\nSugar'.newlineToBreak(); // returns 'Coffee<br/>Cream<br/>Sugar'
+String.prototype.newlineToBreak = function() {
+  for (var i = 0, j = this.length, $ = ''; i < j; i++) $ += /\n|\r/.test(this[i]) ? '<br/>' : this[i];
   return $;
 };
 
