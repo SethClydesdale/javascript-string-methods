@@ -239,6 +239,22 @@ String.prototype.enumerateLines = function(zero) {
 };
 
 
+// Method to return the total amount of words in a string
+// 'Coffee is good. :)'.wordCount(); // returns 3
+String.prototype.wordCount = function(type) {
+  type = type ? type.toLowerCase() : 'number';
+  
+  var $ = type == 'number' ? 0 : type == 'array' ? [] : {}, i = 0;
+  this.replace(/(?:^|\W)(\w+)(?=$|\W)/g, function(M, $1) {
+    type == 'number' ? $++ : $[i++] = $1;
+  });
+  
+  if (type == 'object') $.words = i;
+  
+  return $;
+};
+
+
 // Method to wrap a string with tags or specific characters
 // 'Bingo!'.wrap('<strong>'); // returns '<strong>Bingo!</strong>'
 String.prototype.wrap = function(alpha, omega) {
