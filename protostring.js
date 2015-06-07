@@ -98,6 +98,24 @@ String.prototype.toEnclosed = function() {
 };
 
 
+// Method to convert a String literal into an Object
+// 'Hi'.toObject() // returns { 0:'H', 1:'i', length:2, toString:func() }
+String.prototype.toObject = function() {
+  var i = 0, j = this.length,
+      $ = {
+        length : j,
+        toString : function() {
+          var i, $ = '';
+          for (i in this) $ += /\d+/.test(i) ? this[i] : '';
+          return $;
+        }
+      };
+  
+  for (; i < j; i++) $[i] = this.charAt(i);
+  return $;
+};
+
+
 /* !--- CASE METHODS ---! */
 
 // Method to capitalize the character of a string and lowercase the rest
