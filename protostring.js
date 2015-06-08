@@ -257,6 +257,14 @@ String.prototype.enumerateLines = function(zero) {
 };
 
 
+// Method to escape regular expression characters
+// 'Would you like ${food}?'.escapeRegExp(); // returns 'Would you like \$\{food\}\?'
+String.prototype.escapeRegExp = function() {
+  for (var i = 0, j = this.length, $ = ''; i < j; i++) $ += (/[.*+?^${}()|[\]\\]/.test(this[i]) ? '\\' : '') + this[i];
+  return $;
+};
+
+
 // Method to return the total amount of words in a string
 // 'Coffee is good. :)'.wordCount(); // returns 3
 String.prototype.wordCount = function(type) {
