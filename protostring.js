@@ -398,6 +398,13 @@ String.prototype.template = function(data) {
 
 /* !--- DOM NODE METHODS ---! */
 
+// Method to clean a string by removing HTML tags and entities
+// '<p>Coffee &amp; Cookies</p>'.cleanHTML(); // returns 'Coffee Cookies'
+String.prototype.cleanHTML = function(ignore) {
+  return this.replace(new RegExp('<.*?>' + (ignore ? '' : '|&.*?;\\s?'), 'gm'), '');
+};
+
+
 // Method to clean a string of text so that it can be used as an ID
 // Filters out invalid characters, keeps case, and ensures the ID starts with a character if it doesn't
 // 'my identifier!'.cleanId(); // returns 'my-identifier'
