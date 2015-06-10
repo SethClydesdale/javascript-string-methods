@@ -265,6 +265,23 @@ String.prototype.escapeRegExp = function() {
 };
 
 
+// Method to indent a string with tabs or a specified character
+// 'Coffee\nCream\nSugar'.indent(1, '• '); // returns '• Coffee\n• Cream\n• Sugar'
+String.prototype.indent = function(amount, spacer) {
+  amount = Math.floor(amount) || 1;
+  spacer = spacer || '\x09';
+  
+  if (amount == Infinity) throw new RangeError('The indent amount must be less than Infinity');
+  for (var i = 0, j = this.length, tabs = '', $; i < amount; i++) tabs += spacer;
+  for (i = 1, $ = tabs + this[0]; i < j; i++) {
+    $ += this[i];
+    if (/\n|\r/.test(this[i])) $ += tabs;
+  }
+  
+  return $;
+};
+
+
 // Method to return the total amount of words in a string
 // 'Coffee is good. :)'.wordCount(); // returns 3
 String.prototype.wordCount = function(type) {
