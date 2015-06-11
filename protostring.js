@@ -359,6 +359,16 @@ String.prototype.unshuffle = function(n) {
 };
 
 
+// Method to skip through a string's characters to form a new one
+// 'The quick brown fox jumps over the lazy dog'.skip(13); // returns 'Two '
+String.prototype.skip = function(n) {
+  n = Math.floor(n) || 1;
+  for (var i = 0, j = this.length, $ = ''; i < j; i += n) $ += this[i];
+  
+  return $;
+};
+
+
 /* !--- POLYFILL METHODS ---! */
 
 // Method to repeat a string
