@@ -282,6 +282,33 @@ String.prototype.indent = function(amount, spacer) {
 };
 
 
+// Method to pad a string with characters or whitespace
+// 'Coffee'.pad(3, '♥', 'both'); // returns '♥♥♥Coffee♥♥♥'
+String.prototype.pad = function(n, str, type) {
+  n = Math.floor(n) || 1;
+  str = str || '\xA0';
+  type = type ? type.toLowerCase() : 'right';
+  
+  for (var i = 0, $ = this; i < n; i++) {
+    switch (type) {
+      case 'right' :
+        $ += str;
+        break;
+        
+      case 'left' :
+        $ = str + $;
+        break;
+        
+      case 'both' :
+        $ = str + $ + str;
+        break;
+    }
+  }
+  
+  return $;
+};
+
+
 // Method to return the total amount of words in a string
 // 'Coffee is good. :)'.wordCount(); // returns 3
 String.prototype.wordCount = function(type) {
