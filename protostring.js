@@ -98,6 +98,123 @@ String.prototype.toEnclosed = function() {
 };
 
 
+// Method to convert accented and some special characters to basic latin
+// 'Crème à l\'Orange'.toLatin(); // returns 'Creme a l'Orange'
+String.prototype.toLatin = function() {
+  for (var i = 0, j = this.length, $ = '', S; i < j; i++) {
+    S = this[i];
+
+    // uppercase characters
+    if (/[ÁĂẮẶẰẲẴǍÂẤẬẦẨẪÄǞȦǠẠȀÀẢȂĀĄÅǺḀȺÃⱯᴀ]/.test(S)) S = 'A';
+    else if ('Ꜳ' == S) S = 'AA';
+    else if (/[ÆǼǢᴁ]/.test(S)) S = 'AE';
+    else if ('Ꜵ' == S) S = 'AO';
+    else if ('Ꜷ' == S) S = 'AU';
+    else if (/[ꜸꜺ]/.test(S)) S = 'AV'
+    else if ('Ꜽ' == S) S = 'AY';
+    else if (/[ḂḄƁḆɃƂʙᴃ]/.test(S)) S = 'B';
+    else if (/[ĆCČCÇCḈCĈCĊCƇCȻCꜾᴄ]/.test(S)) S = 'C';
+    else if (/[ĎḐḒḊḌƊḎǲǅĐƋꝹᴅ]/.test(S)) S = 'D';
+    else if (/[ǱǄ]/.test(S)) S = 'DZ';
+    else if (/[ÉĔĚȨḜÊẾỆỀỂỄḘËĖẸȄÈẺȆĒḖḔĘɆẼḚƐƎᴇⱻ]/.test(S)) S = 'E';
+    else if ('Ꝫ' == S) S = 'ET';
+    else if (/[ḞƑꝻꜰ]/.test(S)) S = 'F';
+    else if (/[ǴĞǦĢĜĠƓḠǤꝽɢʛ]/.test(S)) S = 'G';
+    else if (/[ḪȞḨĤⱧḦḢḤĦʜ]/.test(S)) S = 'H';
+    else if (/[ÍIĬIǏIÎIÏIḮIİIỊIȈIÌIỈIȊIĪIĮIƗIĨIḬIɪ]/.test(S)) S = 'I';
+    else if ('Ĳ' == S) S = 'IJ';
+    else if ('Ꝭ' == S) S = 'IS';
+    else if (/[ĴɈᴊ]/.test(S)) S = 'J';
+    else if (/[ḰǨĶⱩꝂḲƘḴꝀꝄᴋ]/.test(S)) S = 'K';
+    else if (/[ĹȽĽĻḼḶḸⱠꝈḺĿⱢǈŁꞀʟᴌ]/.test(S)) S = 'L';
+    else if ('Ǉ' == S) S = 'LJ';
+    else if (/[ḾṀṂⱮƜᴍ]/.test(S)) S = 'M';
+    else if (/[ŃŇŅṊṄṆǸƝṈȠǋÑɴᴎ]/.test(S)) S = 'N';
+    else if ('Ǌ' == S) S = 'NJ';
+    else if (/[ÓŎǑÔỐỘỒỔỖÖȪȮȰỌŐȌÒỎƠỚỢỜỞỠȎꝊꝌŌṒṐƟǪǬØǾÕṌṎȬƆᴏᴐ]/.test(S)) S = 'O';
+    else if (/[Œɶ]/.test(S)) S = 'OE';
+    else if ('Ƣ' == S) S = 'OI';
+    else if ('Ꝏ' == S) S = 'OO';
+    else if (/[Ȣᴕ]/.test(S)) S = 'OU';
+    else if (/[ṔṖꝒƤꝔⱣꝐᴘ]/.test(S)) S = 'P';
+    else if (/[ꝘꝖ]/.test(S)) S = 'Q';
+    else if (/[ŔŘŖṘṚṜȐȒṞɌⱤꞂʁʀᴙᴚ]/.test(S)) S = 'R';
+    else if (/[ŚṤŠṦŞŜȘṠṢṨꞄꜱ]/.test(S)) S = 'S';
+    else if ('ẞ' == S) S = 'SS';
+    else if (/[ꞆŤŢṰȚȾṪṬƬṮƮŦᴛ]/.test(S)) S = 'T';
+    else if ('Ꜩ' == S) S = 'TZ';
+    else if (/[ÚŬǓÛṶÜǗǙǛǕṲỤŰȔÙỦƯỨỰỪỬỮȖŪṺŲŮŨṸṴᴜ]/.test(S)) S = 'U';
+    else if (/[ɅꝞṾƲṼᴠ]/.test(S)) S = 'V';
+    else if ('Ꝡ' == S) S = 'VY';
+    else if (/[ẂŴẄẆẈẀⱲᴡ]/.test(S)) S = 'W';
+    else if (/[ẌẊ]/.test(S)) S = 'X';
+    else if (/[ÝŶŸẎỴỲƳỶỾȲɎỸʏ]/.test(S)) S = 'Y';
+    else if (/[ŹŽẐⱫŻẒȤẔƵᴢ]/.test(S)) S = 'Z';
+    
+    // lowercase characters
+    else if (/[áăắặằẳẵǎâấậầẩẫäǟȧǡạȁàảȃāąᶏẚåǻḁⱥãɐₐ]/.test(S)) S = 'a';
+    else if ('ꜳ' == S) S = 'aa';
+    else if (/[æǽǣᴂ]/.test(S)) S = 'ae';
+    else if ('ꜵ' == S) S = 'ao';
+    else if ('ꜷ' == S) S = 'au';
+    else if (/[ꜹꜻ]/.test(S)) S = 'av';
+    else if ('ꜽ' == S) S = 'ay';
+    else if (/[ḃḅɓḇᵬᶀƀƃ]/.test(S)) S = 'b';
+    else if (/[ćčçḉĉɕċƈȼↄꜿ]/.test(S)) S = 'c';
+    else if (/[ďḑḓȡḋḍɗᶑḏᵭᶁđɖƌꝺ]/.test(S)) S = 'd';
+    else if (/[ǳǆ]/.test(S)) S = 'dz';
+    else if (/[éĕěȩḝêếệềểễḙëėẹȅèẻȇēḗḕⱸęᶒɇẽḛɛᶓɘǝₑ]/.test(S)) S = 'e';
+    else if ('ꝫ' == S) S = 'et';
+    else if (/[ḟƒᵮᶂꝼ]/.test(S)) S = 'f';
+    else if ('ﬀ' == S) S = 'ff';
+    else if ('ﬁ' == S) S = 'fi';
+    else if ('ﬂ' == S) s = 'fl';
+    else if ('ﬃ' == S) S = 'ffi';
+    else if ('ﬄ' == S) S = 'ffl';
+    else if (/[ǵğǧģĝġɠḡᶃǥᵹᵷɡ]/.test(S)) S = 'g';
+    else if (/[ḫȟḩĥⱨḧḣḥɦẖħɥʮʯ]/.test(S)) S = 'h';
+    else if ('ƕ' == S) S = 'hv';
+    else if (/[ıíĭǐîïḯịȉìỉȋīįᶖɨĩḭᴉᵢ]/.test(S)) S = 'i';
+    else if ('ĳ' == S) S = 'ij';
+    else if ('ꝭ' == S) S = 'is';
+    else if (/[ȷɟʄǰĵʝɉⱼ]/.test(S)) S = 'j';
+    else if (/[ḱǩķⱪꝃḳƙḵᶄꝁꝅʞ]/.test(S)) S = 'k';
+    else if (/[ĺƚɬľļḽȴḷḹⱡꝉḻŀɫᶅɭłꞁ]/.test(S)) S = 'l';
+    else if ('ǉ' == S) S = 'lj';
+    else if (/[ḿṁṃɱᵯᶆɯɰ]/.test(S)) S = 'm';
+    else if (/[ńňņṋȵṅṇǹɲṉƞᵰᶇɳñ]/.test(S)) S = 'n';
+    else if ('ǌ' == S) S = 'nj';
+    else if (/[ɵóŏǒôốộồổỗöȫȯȱọőȍòỏơớợờởỡȏꝋꝍⱺōṓṑǫǭøǿõṍṏȭɔᶗᴑᴓₒ]/.test(S)) S = 'o';
+    else if (/[ᴔœ]/.test(S)) S = 'oe';
+    else if ('ƣ' == S) S = 'oi';
+    else if ('ꝏ' == S) S = 'oo';
+    else if ('ȣ' == S) S = 'ou';
+    else if (/[ṕṗꝓƥᵱᶈꝕᵽꝑ]/.test(S)) S = 'p';
+    else if (/[ꝙʠɋꝗ]/.test(S)) S = 'q';
+    else if (/[ꞃŕřŗṙṛṝȑɾᵳȓṟɼᵲᶉɍɽɿɹɻɺⱹᵣ]/.test(S)) S = 'r';
+    else if (/[ꞅſẜẛẝśṥšṧşŝșṡṣṩʂᵴᶊȿ]/.test(S)) S = 's';
+    else if ('ß' == S) S = 'ss';
+    else if ('ﬆ' == S) S = 'st';
+    else if (/[ťţṱțȶẗⱦṫṭƭṯᵵƫʈŧʇꞇ]/.test(S)) S = 't';
+    else if ('ᵺ' == S) S = 'th';
+    else if ('ꜩ' == S) S = 'tz';
+    else if (/[ᴝúŭǔûṷüǘǚǜǖṳụűȕùủưứựừửữȗūṻųᶙůũṹṵᵤ]/.test(S)) S = 'u';
+    else if ('ᵫ' == S) S = 'ue';
+    else if ('ꝸ' == S) S = 'um';
+    else if (/[ʌⱴꝟṿʋᶌⱱṽᵥ]/.test(S)) S = 'v';
+    else if ('ꝡ' == S) S = 'vy';
+    else if (/[ẃŵẅẇẉẁⱳẘʍ]/.test(S)) S = 'w';
+    else if (/[ẍẋᶍₓ]/.test(S)) S = 'x';
+    else if (/[ʎýŷÿẏỵỳƴỷỿȳẙɏỹ]/.test(S)) S = 'y';
+    else if (/[źžẑʑⱬżẓȥẕᵶᶎʐƶɀ]/.test(S)) S = 'z';
+    
+    $ += S;
+  }
+  
+  return $;
+};
+
+
 // Method to convert a String literal into an Object
 // 'Hi'.toObject() // returns { 0:'H', 1:'i', length:2, toString:func() }
 String.prototype.toObject = function() {
