@@ -442,6 +442,23 @@ String.prototype.wordCount = function(type) {
 };
 
 
+// Method to wrap words when they exceed the specified line width
+// 'Want to go out for a cup of coffee?'.wordWrap(13, '<br/>'); // returns 'Want to go out <br/>for a cup of <br/>coffee?'
+String.prototype.wordWrap = function(width, newline, cut) {
+  width = Math.floor(width) || 50;
+  newline = newline || '\n';
+  
+  for (var i = 0, min = 0, j = this.length, $ = ''; i < j; i++) {
+    if (++min >= width && (/\W/.test(this[i]) || cut)) {
+      $ += cut ? newline + this[i] : this[i] + newline;
+      min = 0;
+    } else $ += this[i];
+  }
+  
+  return $;
+};
+
+
 // Method to wrap a string with tags or specific characters
 // 'Bingo!'.wrap('<strong>'); // returns '<strong>Bingo!</strong>'
 String.prototype.wrap = function(alpha, omega) {
